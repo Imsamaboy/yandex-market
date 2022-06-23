@@ -105,34 +105,36 @@ public class YandexMarketService {
 
             // Если категория, то ищем всех детей
             if (unit.getType() == ShopUnitType.CATEGORY) {
-                List<ShopUnit> children = getAllShopUnitChildren(unit);
+                List<ShopUnit> children = repository.findAllChildrenByParentId(unit.getId().toString());
                 children.forEach(child -> {
                     log.info("Deleting ShopUnit with ID: {}", child.getId());
                     repository.delete(child);
                 });
+                log.info("Deleting Parent ShopUnit with ID: {}", unit.getId());
+                repository.delete(unit);
             } else {
                 repository.delete(unit);
             }
-
         } else throw new ShopUnitNotFoundException(id);
     }
-    private List<ShopUnit> getAllShopUnitChildren(ShopUnit start) {
-        ArrayDeque<ShopUnit> stack = new ArrayDeque<>();
-        // TODO: Подумать как заменить
-        List<ShopUnit> isVisited = new ArrayList<>();
-        stack.push(start);
-        List<ShopUnit> allChildren = new ArrayList<>();
-        while (!stack.isEmpty()) {
-            ShopUnit current = stack.pop();
-            if (!isVisited.contains(current)) {
-                isVisited.add(current);
-                allChildren.add(current);
-                for (ShopUnit dest : repository.findAllByParentId(current.getId().toString())) {
-                    if (!isVisited.contains(dest))
-                        stack.push(dest);
-                }
-            }
-        }
-        return allChildren;
-    }
+
+// // TODO: Убрать этот код в дальнейшем ->
+//    private List<ShopUnit> getAllShopUnitChildren(ShopUnit start) {
+//        ArrayDeque<ShopUnit> stack = new ArrayDeque<>();
+//        List<ShopUnit> isVisited = new ArrayList<>();
+//        stack.push(start);
+//        List<ShopUnit> allChildren = new ArrayList<>();
+//        while (!stack.isEmpty()) {
+//            ShopUnit current = stack.pop();
+//            if (!isVisited.contains(current)) {
+//                isVisited.add(current);
+//                allChildren.add(current);
+//                for (ShopUnit dest : repository.findAllByParentId(current.getId().toString())) {
+//                    if (!isVisited.contains(dest))
+//                        stack.push(dest);
+//                }
+//            }
+//        }
+//        return allChildren;
+//    }
 }
