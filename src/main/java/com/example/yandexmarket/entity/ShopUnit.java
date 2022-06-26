@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,7 +29,7 @@ public class ShopUnit {
 
     @Column
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date date;
+    private LocalDateTime date;
 
     @Column
     @Type(type = "uuid-char")
@@ -40,4 +40,13 @@ public class ShopUnit {
 
     @Column
     private Integer price;
+
+    @Column(name = "`left`")
+    private Integer left;
+
+    @Column(name = "`right`")
+    private Integer right;
+
+    @Column
+    private Integer level;
 }

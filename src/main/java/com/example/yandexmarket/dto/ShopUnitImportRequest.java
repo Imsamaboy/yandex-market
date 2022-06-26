@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -15,5 +16,5 @@ public class ShopUnitImportRequest {
     private List<ShopUnitImport> items;
 
     @NotNull
-    private Date date;
+    private LocalDateTime date;
 }

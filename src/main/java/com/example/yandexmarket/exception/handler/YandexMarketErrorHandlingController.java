@@ -21,9 +21,11 @@ public class YandexMarketErrorHandlingController {
     }
 
     @ExceptionHandler(ShopUnitNotFoundException.class)
-    public ResponseEntity<Void> handleShopUnitNotFoundException(ShopUnitNotFoundException ex) {
+    public ResponseEntity<Map<String, String>> handleShopUnitNotFoundException(ShopUnitNotFoundException ex) {
         log.error("ShopUnitNotFoundException " + ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("code", "404", "message", "Item not found"));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
