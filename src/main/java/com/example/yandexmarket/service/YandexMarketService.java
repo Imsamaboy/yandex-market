@@ -173,7 +173,6 @@ public class YandexMarketService {
             int finalCurrentLevel = currentLevel;
             for (ShopUnitWithChildren child: rootChildrenWithChildrenField.stream().filter(x -> x.getLevel() == finalCurrentLevel).toList()) {
                 List<ShopUnitWithChildren> list = rootChildrenWithChildrenField.stream().filter(x -> x.getId().equals(child.getParentId())).toList();
-                // TODO: пиздец, пофиксить ботву, сочащуюся сквозь пальцы
                 if (!list.isEmpty()) {
                     ShopUnitWithChildren parent = list.get(0);
                     if (parent.getChildren() != null) {
@@ -187,7 +186,6 @@ public class YandexMarketService {
                 }
             }
         }
-        // TODO: тоже пиздец...
         return rootChildrenWithChildrenField.stream().filter(x -> x.getId().equals(root.getId())).toList().get(0);
     }
 
